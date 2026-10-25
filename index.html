@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mental Health Signal — Student Wellness Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <p class="eyebrow">Student Wellness Analytics</p>
+    <h1 class="title">Mental Health <em>Signal</em></h1>
+    <p class="subtitle">Estimates a wellness-related score from your daily habits and stress level. It is a reflection tool, not a diagnosis.</p>
+  </div>
+</header>
+
+<main class="layout">
+
+  <!-- FORM PANEL -->
+  <section class="panel form-panel" aria-labelledby="form-heading">
+    <h2 id="form-heading" class="visually-hidden">Your details</h2>
+    <form id="predict-form" novalidate>
+
+      <fieldset class="group">
+        <legend>Profile</legend>
+        <div class="grid grid-3">
+          <div class="field">
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age" min="10" max="100" step="1" required placeholder="e.g. 21" aria-describedby="age-error" />
+            <span class="error-msg" id="age-error" data-for="age"></span>
+          </div>
+          <div class="field">
+            <label for="gender">Gender</label>
+            <select id="gender" name="gender" required aria-describedby="gender-error">
+              <option value="" disabled selected hidden>Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+            <span class="error-msg" id="gender-error" data-for="gender"></span>
+          </div>
+          <div class="field">
+            <label for="country">Country</label>
+            <input type="text" id="country" name="country" list="country-list" required placeholder="e.g. India" autocomplete="off" aria-describedby="country-hint country-error" />
+            <datalist id="country-list">
+              <option value="India"></option>
+              <option value="USA"></option>
+              <option value="Canada"></option>
+              <option value="Australia"></option>
+              <option value="UK"></option>
+              <option value="Germany"></option>
+              <option value="Mexico"></option>
+              <option value="Turkey"></option>
+              <option value="France"></option>
+            </datalist>
+            <span class="hint" id="country-hint">Not listed? Type it anyway.</span>
+            <span class="error-msg" id="country-error" data-for="country"></span>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend>Academic &amp; Digital Habits</legend>
+        <div class="grid grid-2">
+          <div class="field">
+            <label for="academic_level">Academic level</label>
+            <select id="academic_level" name="academic_level" required aria-describedby="academic_level-error">
+              <option value="" disabled selected hidden>Select</option>
+              <option value="High School">High School</option>
+              <option value="Undergraduate">Undergraduate</option>
+              <option value="Graduate">Graduate</option>
+            </select>
+            <span class="error-msg" id="academic_level-error" data-for="academic_level"></span>
+          </div>
+          <div class="field">
+            <label for="most_used_platform">Most-used platform</label>
+            <select id="most_used_platform" name="most_used_platform" required aria-describedby="most_used_platform-error">
+              <option value="" disabled selected hidden>Select</option>
+              <option value="Facebook">Facebook</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Snapchat">Snapchat</option>
+              <option value="Twitter">Twitter</option>
+              <option value="YouTube">YouTube</option>
+              <option value="TikTok">TikTok</option>
+              <option value="LinkedIn">LinkedIn</option>
+              <option value="LINE">LINE</option>
+              <option value="KakaoTalk">KakaoTalk</option>
+              <option value="VKontakte">VKontakte</option>
+              <option value="WhatsApp">WhatsApp</option>
+              <option value="WeChat">WeChat</option>
+            </select>
+            <span class="error-msg" id="most_used_platform-error" data-for="most_used_platform"></span>
+          </div>
+          <div class="field">
+            <label for="purpose_of_use">Primary purpose</label>
+            <select id="purpose_of_use" name="purpose_of_use" required aria-describedby="purpose_of_use-error">
+              <option value="" disabled selected hidden>Select</option>
+              <option value="Networking">Networking</option>
+              <option value="Education">Education</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="News">News</option>
+            </select>
+            <span class="error-msg" id="purpose_of_use-error" data-for="purpose_of_use"></span>
+          </div>
+          <div class="field">
+            <label for="avg_daily_usage_hours">Avg. daily screen time</label>
+            <div class="unit-input">
+              <input type="number" id="avg_daily_usage_hours" name="avg_daily_usage_hours" min="0" max="24" step="0.1" required placeholder="0.0" aria-describedby="avg_daily_usage_hours-error" />
+              <span class="unit" aria-hidden="true">hrs</span>
+            </div>
+            <span class="error-msg" id="avg_daily_usage_hours-error" data-for="avg_daily_usage_hours"></span>
+          </div>
+          <div class="field">
+            <label for="daily_unlocks">Daily phone unlocks</label>
+            <input type="number" id="daily_unlocks" name="daily_unlocks" min="0" step="1" required placeholder="e.g. 60" aria-describedby="daily_unlocks-error" />
+            <span class="error-msg" id="daily_unlocks-error" data-for="daily_unlocks"></span>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend>Lifestyle &amp; Stress</legend>
+        <div class="grid grid-3">
+          <div class="field">
+            <label for="study_hours">Study hours / day</label>
+            <div class="unit-input">
+              <input type="number" id="study_hours" name="study_hours" min="0" max="24" step="0.1" required placeholder="0.0" aria-describedby="study_hours-error" />
+              <span class="unit" aria-hidden="true">hrs</span>
+            </div>
+            <span class="error-msg" id="study_hours-error" data-for="study_hours"></span>
+          </div>
+          <div class="field">
+            <label for="physical_activity_hours">Physical activity / day</label>
+            <div class="unit-input">
+              <input type="number" id="physical_activity_hours" name="physical_activity_hours" min="0" max="24" step="0.1" required placeholder="0.0" aria-describedby="physical_activity_hours-error" />
+              <span class="unit" aria-hidden="true">hrs</span>
+            </div>
+            <span class="error-msg" id="physical_activity_hours-error" data-for="physical_activity_hours"></span>
+          </div>
+          <div class="field">
+            <label for="sleep_hours_per_night">Sleep / night</label>
+            <div class="unit-input">
+              <input type="number" id="sleep_hours_per_night" name="sleep_hours_per_night" min="0" max="24" step="0.1" required placeholder="0.0" aria-describedby="sleep_hours_per_night-error" />
+              <span class="unit" aria-hidden="true">hrs</span>
+            </div>
+            <span class="error-msg" id="sleep_hours_per_night-error" data-for="sleep_hours_per_night"></span>
+          </div>
+          <div class="field field-span">
+            <span class="label" id="stress_level_label">Perceived stress level</span>
+            <div class="segmented" id="stress_level_group" data-name="stress_level" role="radiogroup" aria-labelledby="stress_level_label" aria-describedby="stress_level-error">
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" tabindex="0" data-value="Low">Low</button>
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" tabindex="-1" data-value="Medium">Medium</button>
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" tabindex="-1" data-value="High">High</button>
+              <button type="button" class="seg-btn" role="radio" aria-checked="false" tabindex="-1" data-value="Very High">Very High</button>
+            </div>
+            <input type="hidden" id="stress_level" name="stress_level" required />
+            <span class="error-msg" id="stress_level-error" data-for="stress_level"></span>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="form-footer">
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <span class="btn-label">Read my signal</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RESULT PANEL -->
+  <aside class="panel result-panel" id="result-panel" aria-labelledby="result-heading" aria-live="polite">
+    <h2 id="result-heading" class="panel-label">Your signal</h2>
+
+    <div class="result-inner" id="result-inner">
+
+      <div class="state state-idle" id="state-idle">
+        <svg class="gauge" viewBox="0 0 240 164" aria-hidden="true" focusable="false">
+          <path class="gauge-track" d="M 20 140 A 100 100 0 0 1 220 140" />
+          <g class="gauge-ticks"></g>
+          <text class="gauge-label" x="20" y="160" text-anchor="middle">0</text>
+          <text class="gauge-label" x="220" y="160" text-anchor="middle">10</text>
+        </svg>
+        <p class="state-title">Your score will appear here</p>
+        <p class="state-copy">Complete the form and submit to see an estimated wellness score from 0 to 10.</p>
+      </div>
+
+      <div class="state state-loading" id="state-loading" hidden>
+        <div class="spinner" aria-hidden="true"></div>
+        <p class="state-title">Analyzing your responses…</p>
+        <p class="state-copy">This usually takes a moment.</p>
+      </div>
+
+      <div class="state state-result" id="state-result" hidden>
+        <svg class="gauge" viewBox="0 0 240 164" aria-hidden="true" focusable="false">
+          <path class="gauge-track" d="M 20 140 A 100 100 0 0 1 220 140" />
+          <path class="gauge-fill" id="gauge-fill" d="M 20 140 A 100 100 0 0 1 220 140" pathLength="100" />
+          <g class="gauge-ticks"></g>
+          <text class="gauge-label" x="20" y="160" text-anchor="middle">0</text>
+          <text class="gauge-label" x="220" y="160" text-anchor="middle">10</text>
+        </svg>
+        <div class="score-readout">
+          <span class="score-number" id="score-number">0.0</span>
+          <span class="score-max">/10</span>
+        </div>
+        <p class="score-band" id="score-band">—</p>
+        <p class="score-context" id="score-context"></p>
+        <button type="button" class="secondary-btn" id="reset-btn">Run another read</button>
+      </div>
+
+      <div class="state state-error" id="state-error" hidden role="alert">
+        <div class="error-icon" aria-hidden="true">!</div>
+        <p class="state-title" id="error-label">Something went wrong</p>
+        <p class="state-copy" id="error-copy"></p>
+        <button type="button" class="secondary-btn" id="error-retry-btn">Try again</button>
+      </div>
+
+    </div>
+
+    <p class="result-note">A lifestyle-based estimate, not a clinical assessment.</p>
+  </aside>
+
+</main>
+
+<footer class="site-footer">
+  <p>For informational purposes only. This is not a clinical assessment. If you're struggling, please reach out to someone you trust or a mental health professional.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
